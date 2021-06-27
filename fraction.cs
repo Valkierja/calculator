@@ -21,17 +21,26 @@ namespace test
 			{
 				int temp = 1 / fenMu;
 			}
-			catch (DivideByZeroException e)
+			catch (DivideByZeroException)
 			{
 				MessageBox.Show("分母不能为0","Error");
+				return;
 			}
 			fenMu = mu;
 			fenZi = zi;
-
 			}
 
 		public fraction(int mu)   //单变量的构造函数 只构造分母
 		{
+			try
+			{
+				int temp = 1 / fenMu;
+			}
+			catch (DivideByZeroException)
+			{
+				MessageBox.Show("分母不能为0", "Error");
+				return;
+			}
 			fenMu = mu;
 			fenZi = 0;
 		}
@@ -42,6 +51,15 @@ namespace test
 
 		public void setMu(int mu)
 		{
+			try
+			{
+				int temp = 1 / fenMu;
+			}
+			catch (DivideByZeroException)
+			{
+				MessageBox.Show("分母不能为0", "Error");
+				return;
+			}
 			fenMu = mu;
 		}
 
