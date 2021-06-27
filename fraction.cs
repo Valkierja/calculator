@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 namespace test
 {
 	class fraction
@@ -16,9 +16,19 @@ namespace test
 		}
 		public fraction(int zi, int mu)
 		{
+
+			try
+			{
+				int temp = 1 / fenMu;
+			}
+			catch (DivideByZeroException e)
+			{
+				MessageBox.Show("分母不能为0","Error");
+			}
 			fenMu = mu;
 			fenZi = zi;
-		}
+
+			}
 
 		public fraction(int mu)   //单变量的构造函数 只构造分母
 		{
