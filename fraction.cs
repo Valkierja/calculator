@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace test
 {
+	class integrat
+	{
+		public int ;
+	}
+
 	class fraction
 	{
 		public int fenMu;
@@ -64,7 +69,7 @@ namespace test
 		}
 
 
-		public int Gcd(int m, int n) { return n == 0 ? m : Gcd(n, m % n); }
+		public static int Gcd(int m, int n) { return n == 0 ? m : Gcd(n, m % n); }
 
 		public static fraction operator +(fraction L, fraction R)
 		{
@@ -74,11 +79,12 @@ namespace test
 				return new fraction(L.fenZi + R.fenZi, L.fenMu);
 			}
 			fraction result = new fraction(L.fenMu * R.fenMu);
-
-
-
-
-
+			L.fenZi *= R.fenMu;  //通分
+			R.fenZi *= L.fenMu;
+			result.fenZi = L.fenZi + R.fenZi;
+			int temp = Gcd(result.fenZi, result.fenMu);
+			result.fenMu /= temp;
+			result.fenZi /= temp;
 			return result;
 		}
 	}
