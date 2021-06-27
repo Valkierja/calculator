@@ -14,13 +14,13 @@ namespace test
 		{
 
 		}
-		public fraction(int zi,int mu)
+		public fraction(int zi, int mu)
 		{
 			fenMu = mu;
 			fenZi = zi;
 		}
 
-		public fraction( int mu)   //单变量的构造函数 只构造分母
+		public fraction(int mu)   //单变量的构造函数 只构造分母
 		{
 			fenMu = mu;
 			fenZi = 0;
@@ -36,14 +36,14 @@ namespace test
 		}
 
 
-		public int Gcd(int m, int n){ return n == 0 ? m : Gcd(n, m % n); }
+		public int Gcd(int m, int n) { return n == 0 ? m : Gcd(n, m % n); }
 
-		public static fraction operator+(fraction L, fraction R)
+		public static fraction operator +(fraction L, fraction R)
 		{
-			
-			if (L.fenMu==R.fenMu)   //分子相同
+
+			if (L.fenMu == R.fenMu)   //分子相同
 			{
-				return new fraction(L.fenZi+R.fenZi,L.fenMu);
+				return new fraction(L.fenZi + R.fenZi, L.fenMu);
 			}
 			fraction result = new fraction(L.fenMu * R.fenMu);
 
