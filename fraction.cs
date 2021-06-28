@@ -4,22 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 namespace test
 {
-	class integrat
+	class Integrat
 	{
-		public int ;
+		public int fenZi;
+
+
+	
 	}
 
-	class fraction
+	class Fraction:Integrat
 	{
 		public int fenMu;
-		public int fenZi;
-		public fraction()
+		public Fraction()
 		{
 
 		}
-		public fraction(int zi, int mu)
+		public Fraction(int zi, int mu)
 		{
 
 			try
@@ -35,7 +38,7 @@ namespace test
 			fenZi = zi;
 			}
 
-		public fraction(int mu)   //单变量的构造函数 只构造分母
+		public Fraction(int mu)   //单变量的构造函数 只构造分母
 		{
 			try
 			{
@@ -49,12 +52,12 @@ namespace test
 			fenMu = mu;
 			fenZi = 0;
 		}
-		public void setZi(int zi)
+		public void SetZi(int zi)
 		{
 			fenZi = zi;
 		}
 
-		public void setMu(int mu)
+		public void SetMu(int mu)
 		{
 			try
 			{
@@ -71,14 +74,14 @@ namespace test
 
 		public static int Gcd(int m, int n) { return n == 0 ? m : Gcd(n, m % n); }
 
-		public static fraction operator +(fraction L, fraction R)
+		public static Fraction operator +(Fraction L, Fraction R)
 		{
 
 			if (L.fenMu == R.fenMu)   //分子相同
 			{
-				return new fraction(L.fenZi + R.fenZi, L.fenMu);
+				return new Fraction(L.fenZi + R.fenZi, L.fenMu);
 			}
-			fraction result = new fraction(L.fenMu * R.fenMu);
+			Fraction result = new Fraction(L.fenMu * R.fenMu);
 			L.fenZi *= R.fenMu;  //通分
 			R.fenZi *= L.fenMu;
 			result.fenZi = L.fenZi + R.fenZi;
