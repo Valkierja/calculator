@@ -68,7 +68,7 @@ namespace test
 					textBox1.Text += num;
 					return;
 				}
-				
+				return;
 			}
 			else
 			{
@@ -76,7 +76,7 @@ namespace test
 				{
 					return;
 				}
-				if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/" || fenMuFlag))
+				if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
 				{
 					if (num == "/")
 					{
@@ -104,6 +104,9 @@ namespace test
 		private void button1_Click(object sender, EventArgs e)
 		{
 			Num_push("1");
+			operatorFlag = false;
+
+
 		}
 
 
@@ -111,53 +114,54 @@ namespace test
 		private void button2_Click(object sender, EventArgs e)
 		{
 			Num_push("2");
-
+			operatorFlag = false;
 		}
 
 		private void button3_Click(object sender, EventArgs e)
 		{
 			Num_push("3");
-
+			operatorFlag = false;
 		}
 
 		private void button4_Click(object sender, EventArgs e)
 		{
 			Num_push("4");
-
+			operatorFlag = false;
 		}
 
 		private void button5_Click(object sender, EventArgs e)
 		{
 			Num_push("5");
-
+			operatorFlag = false;
 		}
 
 		private void button6_Click(object sender, EventArgs e)
 		{
 			Num_push("6");
-
+			operatorFlag = false;
 		}
 		private void button7_Click(object sender, EventArgs e)
 		{
 			Num_push("7");
-
+			operatorFlag = false;
 		}
 
 		private void button8_Click(object sender, EventArgs e)
 		{
 			Num_push("8");
-
+			operatorFlag = false;
 		}
 
 		private void button9_Click(object sender, EventArgs e)
 		{
 			Num_push("9");
-
+			operatorFlag = false;
 		}
 
 		private void button10_Click(object sender, EventArgs e)  //数字0
 		{
 			Num_push("0");
+			operatorFlag = false;
 
 		}
 
@@ -172,7 +176,7 @@ namespace test
 
 		private void button12_Click(object sender, EventArgs e) //加号
 		{
-			operatorFlag = false;
+			
 			Num_push("+");
 			operatorFlag = true;
 
@@ -180,7 +184,7 @@ namespace test
 
 		private void button13_Click(object sender, EventArgs e)//减号
 		{
-			operatorFlag = false;
+			
 
 			Num_push("-");
 			operatorFlag = true;
@@ -189,7 +193,7 @@ namespace test
 
 		private void button14_Click(object sender, EventArgs e)  //乘号
 		{
-			operatorFlag = false;
+		
 
 			Num_push("*");
 			operatorFlag = true;
@@ -197,7 +201,7 @@ namespace test
 
 		private void button15_Click(object sender, EventArgs e)  //除号
 		{
-			operatorFlag = false;
+			
 			Num_push("/");
 			operatorFlag = true;
 
@@ -205,7 +209,7 @@ namespace test
 
 		private void button16_Click(object sender, EventArgs e)//退格
 		{
-
+			textBox1.Text += "\b";
 		}
 
 		private void button17_Click(object sender, EventArgs e)   //倒数
@@ -216,6 +220,7 @@ namespace test
 		private void button18_Click(object sender, EventArgs e)  //分数线
 		{
 			fenMuFlag = true;
+
 		}
 		private void textBox1_TextChanged(object sender, EventArgs e)//current textbox
 		{
