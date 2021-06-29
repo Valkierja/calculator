@@ -168,7 +168,12 @@ namespace test
 		private void button11_Click(object sender, EventArgs e) //等于号
 		{
 
-			textBox2.Text = Eval.JScriptEvaluate(calcu_list, ve).ToString();
+			int a =(int)Eval.JScriptEvaluate(calcu_list, ve);
+
+			textBox2.Text = a.ToString();
+			//未完工
+
+
 			textBox1.Clear();
 			operatorFlag = false;
 			firstNum = true;
@@ -233,3 +238,5 @@ namespace test
 		}
 	}
 }
+
+
