@@ -31,6 +31,7 @@ namespace test
 		private bool operatorFlag; //检测是否已经输入了一个符号
 		static private bool firstNum = true;
 		private bool hasNum=false;
+		private bool hasFenMu = false;  //不要复用hasNum
 		private bool fenMuFlag; //检测分母输入
 
 
@@ -98,7 +99,28 @@ namespace test
 						return;
 					}
 					textBox1.Text += num;
+					calcuList += num;
 					return;
+				}
+				if (fenMuFlag)
+				{
+					if (!hasNum)
+					{
+						if ( num == "+" || num == "-" || num == "*" || num == "/")
+						{
+							return;
+						}
+						calcuMem += num;
+						textBox1.Text += num;
+						hasNum = true;
+						return;
+					}
+					if (num == "+" || num == "-" || num == "*" || num == "/")
+					{
+						FenMu.Add(Int32.Parse(calcuMem));
+					}
+
+
 				}
 				operatorFlag = false;
 				calcuList += num;
@@ -184,8 +206,14 @@ namespace test
 		}
 
 		private void button11_Click(object sender, EventArgs e) //等于号
+			
 		{
+			if (operatorFlag)
+			{
+				return;
+			}
 			calcuList += calcuMem;
+
 
 			int a = Int32.Parse(Eval.JScriptEvaluate(calcuList, JSEngine).ToString());
 
@@ -241,12 +269,26 @@ namespace test
 				{
 					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
 					calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
-
 					return;
 				}
-				textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-				calcuList = calcuList.Substring(0, calcuList.Length - 1);
-				return;
+				if (!firstNum && operatorFlag)
+				{
+					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+					calcuList = calcuList.Substring(0, calcuList.Length - 1);
+					operatorFlag = false;
+					return;
+				}
+				if (fenMuFlag)
+				{
+					if (calcuMem == "")
+					{
+						fenMuFlag = false;
+						operatorFlag = false;
+						hasFenMu = false;
+						textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+					}
+
+				}
 			}
 		}
 
@@ -257,8 +299,15 @@ namespace test
 
 		private void button18_Click(object sender, EventArgs e)  //分数线
 		{
+			if (fenMuFlag)
+			{
+				return;   //多重分数太复杂
+			}
 			fenMuFlag = true;
-
+			operatorFlag = true;  //分母如果包含其他运算太复杂,略去
+			hasFenMu = false;
+			textBox1.Text += "/";
+			FenZi.Add(Int32.Parse(calcuMem));
 
 
 
