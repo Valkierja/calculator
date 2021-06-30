@@ -20,10 +20,10 @@ namespace test
 	public partial class Form1 : Form
 	{
 
-		string calcu_list="";//储存用户输入的无分母表达式
-		string calcu_mem = "";
+		string calcuList="";//储存用户输入的无分母表达式
+		string calcuMem = "";
 		[Obsolete]
-		Microsoft.JScript.Vsa.VsaEngine ve = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();  //初始化JS解释器引擎
+		Microsoft.JScript.Vsa.VsaEngine JSEngine = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();  //初始化JS解释器引擎
 
 		private bool operatorFlag; //检测是否已经输入了一个符号
 		static private bool firstNum = true;
@@ -51,7 +51,7 @@ namespace test
 			if ((num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6" || num == "7" || num == "8"
 														 || num == "9" || num == "0"))
 			{
-					calcu_list += num;
+					calcuMem += num;
 					textBox1.Text += num;
 					hasNum = true;
 					firstNum = false;
@@ -59,16 +59,18 @@ namespace test
 			}
 				if (hasNum && (num == "+" || num == "-" || num == "*" || num == "/" ))
 				{
+					calcuList += calcuMem;
+					calcuMem = "";
 					operatorFlag = true;
 					hasNum = false;
 					firstNum = false;
 					if (num == "/")
 					{
-						calcu_list += "/";
+						calcuList += "/";
 						textBox1.Text += "÷";
 						return;
 					}
-					calcu_list += num;
+					calcuList += num;
 					textBox1.Text += num;
 					return;
 				}
@@ -82,19 +84,21 @@ namespace test
 				}
 				if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
 				{
+					calcuList += calcuMem;
+					calcuMem = "";
 					operatorFlag = true;
 					if (num == "/")
 					{
-						calcu_list += "/";
+						calcuList += "/";
 						textBox1.Text += "÷";
+
 						return;
 					}
-					calcu_list += num;
 					textBox1.Text += num;
 					return;
 				}
 				operatorFlag = false;
-				calcu_list += num;
+				calcuList += num;
 				textBox1.Text += num;
 				return;
 
@@ -178,8 +182,9 @@ namespace test
 
 		private void button11_Click(object sender, EventArgs e) //等于号
 		{
+			calcuList += calcuMem;
 
-			int a = Int32.Parse(Eval.JScriptEvaluate(calcu_list, ve).ToString());
+			int a = Int32.Parse(Eval.JScriptEvaluate(calcuList, JSEngine).ToString());
 
 
 
@@ -190,7 +195,9 @@ namespace test
 			textBox1.Clear();
 			operatorFlag = false;
 			firstNum = true;
-			calcu_list = "";
+			calcuList = "";
+			calcuMem = "";
+
 		}
 
 		private void button12_Click(object sender, EventArgs e) //加号
@@ -227,9 +234,10 @@ namespace test
 		{
 			if (textBox1.Text!="")
 			{ 
-			textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-			calcu_list = calcu_list.Substring(0, calcu_list.Length - 1);
-			return;
+				textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+				calcuList = calcuList.Substring(0, calcuList.Length - 1);
+				calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
+				return;
 			}
 			return;
 		}
