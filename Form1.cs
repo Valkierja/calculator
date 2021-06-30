@@ -20,12 +20,13 @@ namespace test
 	public partial class Form1 : Form
 	{
 
-		string calcu_list;//储存用户输入的无分母表达式
+		string calcu_list="";//储存用户输入的无分母表达式
+		string calcu_mem = "";
 		[Obsolete]
 		Microsoft.JScript.Vsa.VsaEngine ve = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();  //初始化JS解释器引擎
 
 		private bool operatorFlag; //检测是否已经输入了一个符号
-		private bool firstNum = true;
+		static private bool firstNum = true;
 		private bool hasNum=false;
 		private bool fenMuFlag; //检测分母输入
 
@@ -44,19 +45,22 @@ namespace test
 
 
 
-			if (firstNum)
+			if (firstNum|| hasNum)
 			{
-
+				textBox2.Clear();
 			if ((num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6" || num == "7" || num == "8"
 														 || num == "9" || num == "0"))
 			{
 					calcu_list += num;
 					textBox1.Text += num;
 					hasNum = true;
+					firstNum = false;
 					return;
 			}
 				if (hasNum && (num == "+" || num == "-" || num == "*" || num == "/" ))
 				{
+					operatorFlag = true;
+					hasNum = false;
 					firstNum = false;
 					if (num == "/")
 					{
@@ -78,6 +82,7 @@ namespace test
 				}
 				if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
 				{
+					operatorFlag = true;
 					if (num == "/")
 					{
 						calcu_list += "/";
@@ -88,6 +93,12 @@ namespace test
 					textBox1.Text += num;
 					return;
 				}
+				operatorFlag = false;
+				calcu_list += num;
+				textBox1.Text += num;
+				return;
+
+
 
 				//↑显示并压栈符号
 			}
@@ -168,7 +179,9 @@ namespace test
 		private void button11_Click(object sender, EventArgs e) //等于号
 		{
 
-			int a =(int)Eval.JScriptEvaluate(calcu_list, ve);
+			int a = Int32.Parse(Eval.JScriptEvaluate(calcu_list, ve).ToString());
+
+
 
 			textBox2.Text = a.ToString();
 			//未完工
@@ -177,44 +190,48 @@ namespace test
 			textBox1.Clear();
 			operatorFlag = false;
 			firstNum = true;
+			calcu_list = "";
 		}
 
 		private void button12_Click(object sender, EventArgs e) //加号
 		{
-			
 			Num_push("+");
-			operatorFlag = true;
 
 		}
 
 		private void button13_Click(object sender, EventArgs e)//减号
 		{
-			
+
 
 			Num_push("-");
-			operatorFlag = true;
+			
 
 		}
 
 		private void button14_Click(object sender, EventArgs e)  //乘号
 		{
-		
+
 
 			Num_push("*");
-			operatorFlag = true;
 		}
 
 		private void button15_Click(object sender, EventArgs e)  //除号
 		{
-			
+
+
 			Num_push("/");
-			operatorFlag = true;
 
 		}
 
 		private void button16_Click(object sender, EventArgs e)//退格
 		{
-			textBox1.Text += "\b";
+			if (textBox1.Text!="")
+			{ 
+			textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+			calcu_list = calcu_list.Substring(0, calcu_list.Length - 1);
+			return;
+			}
+			return;
 		}
 
 		private void button17_Click(object sender, EventArgs e)   //倒数
@@ -225,6 +242,7 @@ namespace test
 		private void button18_Click(object sender, EventArgs e)  //分数线
 		{
 			fenMuFlag = true;
+
 
 		}
 		private void textBox1_TextChanged(object sender, EventArgs e)//current textbox
