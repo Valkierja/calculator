@@ -295,6 +295,7 @@ namespace test
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.Text = "分数计算器";
 			this.Load += new System.EventHandler(this.Form1_Load);
