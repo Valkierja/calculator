@@ -19,8 +19,11 @@ namespace test
 
 	public partial class Form1 : Form
 	{
+		List<int> FenZi = new List<int>();   //小写名称已被占用
+		List<int> FenMu = new List<int>();
 
-		string calcuList="";//储存用户输入的无分母表达式
+
+		string calcuList ="";//储存用户输入的无分母表达式
 		string calcuMem = "";
 		[Obsolete]
 		Microsoft.JScript.Vsa.VsaEngine JSEngine = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();  //初始化JS解释器引擎
@@ -232,14 +235,19 @@ namespace test
 
 		private void button16_Click(object sender, EventArgs e)//退格
 		{
-			if (textBox1.Text!="")
-			{ 
+			if (textBox1.Text != "")
+			{
+				if (!firstNum && !operatorFlag)
+				{
+					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+					calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
+
+					return;
+				}
 				textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
 				calcuList = calcuList.Substring(0, calcuList.Length - 1);
-				calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
 				return;
 			}
-			return;
 		}
 
 		private void button17_Click(object sender, EventArgs e)   //倒数
@@ -250,6 +258,8 @@ namespace test
 		private void button18_Click(object sender, EventArgs e)  //分数线
 		{
 			fenMuFlag = true;
+
+
 
 
 		}
