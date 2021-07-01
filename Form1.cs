@@ -19,8 +19,8 @@ namespace test
 
 	public partial class Form1 : Form
 	{
-		List<int> FenZi = new List<int>();   //小写名称已被占用
-		List<int> FenMu = new List<int>();
+		List<string> FenZi = new List<string>();   //小写名称已被占用
+		List<string> FenMu = new List<string>();
 
 
 		string calcuList ="";//储存用户输入的无分母表达式
@@ -44,96 +44,115 @@ namespace test
 		}
 
 
-		private void Num_push(string num)
+
+
+		private void pushFenZi(string num)
 		{
 
-
-
-			if (firstNum|| hasNum)
-			{
-				textBox2.Clear();
-			if ((num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6" || num == "7" || num == "8"
-														 || num == "9" || num == "0"))
-			{
-					calcuMem += num;
-					textBox1.Text += num;
-					hasNum = true;
-					firstNum = false;
-					return;
-			}
-				if (hasNum && (num == "+" || num == "-" || num == "*" || num == "/" ))
-				{
-					calcuList += calcuMem;
-					calcuMem = "";
-					operatorFlag = true;
-					hasNum = false;
-					firstNum = false;
-					if (num == "/")
-					{
-						calcuList += "/";
-						textBox1.Text += "÷";
-						return;
-					}
-					calcuList += num;
-					textBox1.Text += num;
-					return;
-				}
-				return;
-			}
-			else
-			{
-				if (operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/" || fenMuFlag))
-				{
-					return;
-				}
-				if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
-				{
-					calcuList += calcuMem;
-					calcuMem = "";
-					operatorFlag = true;
-					if (num == "/")
-					{
-						calcuList += "/";
-						textBox1.Text += "÷";
-
-						return;
-					}
-					textBox1.Text += num;
-					calcuList += num;
-					return;
-				}
-				if (fenMuFlag)
-				{
-					if (!hasNum)
-					{
-						if ( num == "+" || num == "-" || num == "*" || num == "/")
-						{
-							return;
-						}
-						calcuMem += num;
-						textBox1.Text += num;
-						hasNum = true;
-						return;
-					}
-					if (num == "+" || num == "-" || num == "*" || num == "/")
-					{
-						FenMu.Add(Int32.Parse(calcuMem));
-					}
-
-
-				}
-				operatorFlag = false;
-				calcuList += num;
-				textBox1.Text += num;
-				return;
-
-
-
-				//↑显示并压栈符号
-			}
-
+		}
+		private void pushFenMu(string num)
+		{
 
 		}
+		private void pushPrt(string prt)
+		{
+
+		}
+
+
+
+		//private void Num_push(string num)
+		//{
+
+
+
+		//	if (firstNum|| hasNum)
+		//	{
+		//		textBox2.Clear();
+		//	if ((num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6" || num == "7" || num == "8"
+		//												 || num == "9" || num == "0"))
+		//	{
+		//			calcuMem += num;
+		//			textBox1.Text += num;
+		//			hasNum = true;
+		//			firstNum = false;
+		//			return;
+		//	}
+		//		if (hasNum && (num == "+" || num == "-" || num == "*" || num == "/" ))
+		//		{
+		//			calcuList += calcuMem;
+		//			calcuMem = "";
+		//			operatorFlag = true;
+		//			hasNum = false;
+		//			firstNum = false;
+		//			if (num == "/")
+		//			{
+		//				calcuList += "/";
+		//				textBox1.Text += "÷";
+		//				return;
+		//			}
+		//			calcuList += num;
+		//			textBox1.Text += num;
+		//			return;
+		//		}
+		//		return;
+		//	}
+		//	else
+		//	{
+		//		if (operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/" || fenMuFlag))
+		//		{
+		//			return;
+		//		}
+		//		if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
+		//		{
+		//			calcuList += calcuMem;
+		//			calcuMem = "";
+		//			operatorFlag = true;
+		//			if (num == "/")
+		//			{
+		//				calcuList += "/";
+		//				textBox1.Text += "÷";
+
+		//				return;
+		//			}
+		//			textBox1.Text += num;
+		//			calcuList += num;
+		//			return;
+		//		}
+		//		if (fenMuFlag)
+		//		{
+		//			if (!hasFenMu)
+		//			{
+		//				if ( num == "+" || num == "-" || num == "*" || num == "/")
+		//				{
+		//					return;
+		//				}
+		//				calcuMem += num;
+		//				textBox1.Text += num;
+		//				hasFenMu = true;
+		//				return;
+		//			}
+		//			if (num == "+" || num == "-" || num == "*" || num == "/")
+		//			{
+		//				FenMu.Add(calcuMem);
+		//				textBox1.Text += num;
+		//				return;
+		//			}
+
+
+		//		}
+		//		operatorFlag = false;
+		//		calcuList += num;
+		//		textBox1.Text += num;
+		//		return;
+
+
+
+		//		//↑显示并压栈符号
+		//	}
+
+
+		//}
 
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -268,7 +287,7 @@ namespace test
 				if (!firstNum && !operatorFlag)
 				{
 					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-					calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
+					 calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
 					return;
 				}
 				if (!firstNum && operatorFlag)
@@ -307,7 +326,9 @@ namespace test
 			operatorFlag = true;  //分母如果包含其他运算太复杂,略去
 			hasFenMu = false;
 			textBox1.Text += "/";
-			FenZi.Add(Int32.Parse(calcuMem));
+
+			FenZi.Add(calcuList[calcuList.Length-1]+calcuMem);
+			calcuMem = "";
 
 
 
