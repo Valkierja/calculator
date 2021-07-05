@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.JScript;
 
-
+//
 namespace test
 {
 
@@ -19,150 +19,99 @@ namespace test
 
 	public partial class Form1 : Form
 	{
-		List<string> FenZi = new List<string>();   //小写名称已被占用
-		List<string> FenMu = new List<string>();
+		List<string> FenZi = new List<string>(100);   //小写名称已被占用
+		List<string> FenMu = new List<string>(100);
+		List<string> Ptr = new List<string>(); //符号栈
+		static private int numCounter=0;
 
-
-		string calcuList ="";//储存用户输入的无分母表达式
-		string calcuMem = "";
 		[Obsolete]
 		Microsoft.JScript.Vsa.VsaEngine JSEngine = Microsoft.JScript.Vsa.VsaEngine.CreateEngine();  //初始化JS解释器引擎
 
-		private bool operatorFlag; //检测是否已经输入了一个符号
-		static private bool firstNum = true;
-		private bool hasNum=false;
-		private bool hasFenMu = false;  //不要复用hasNum
-		private bool fenMuFlag; //检测分母输入
-
+		private bool operatorFlag = false; //检测是否已经输入了一个符号
+		private bool fenMuFlag=false; //检测分母输入
+		string tempFenMu = "";
+		string tempFenZi = "";
 
 
 		public Form1()
 		{
 
-			operatorFlag = false;
+	
+			//初始化分母list,默认分母为1
+			
+
+
+			
 			InitializeComponent();
 		}
 
+	
 
 
-
-		private void pushFenZi(string num)
+		private void pushNum(string num)
 		{
+	
+
+			if (fenMuFlag)
+			{
+				tempFenMu += num;
+				textBox1.Text += num;
+				return;
+			}
+			tempFenZi +=num;
+
+			textBox1.Text += num;
+
+			return;
+		}
+
+		private void pushPrt(string item)
+		{
+			if (operatorFlag)
+			{
+				return;
+			}
+
+			FenMu[numCounter] =(tempFenMu);
+			FenZi[numCounter] =(tempFenZi);
+			tempFenMu = "";
+			tempFenZi = "";
+			if (item=="/")
+			{
+
+				Ptr.Add("/");
+				textBox1.Text += "÷";
+				numCounter++;
+				return;
+			}
+			Ptr.Add(item);
+			textBox1.Text += item;
+			numCounter++;	
+			return;
 
 		}
-		private void pushFenMu(string num)
-		{
-
-		}
-		private void pushPrt(string prt)
-		{
-
-		}
 
 
 
-		//private void Num_push(string num)
-		//{
-
-
-
-		//	if (firstNum|| hasNum)
-		//	{
-		//		textBox2.Clear();
-		//	if ((num == "1" || num == "2" || num == "3" || num == "4" || num == "5" || num == "6" || num == "7" || num == "8"
-		//												 || num == "9" || num == "0"))
-		//	{
-		//			calcuMem += num;
-		//			textBox1.Text += num;
-		//			hasNum = true;
-		//			firstNum = false;
-		//			return;
-		//	}
-		//		if (hasNum && (num == "+" || num == "-" || num == "*" || num == "/" ))
-		//		{
-		//			calcuList += calcuMem;
-		//			calcuMem = "";
-		//			operatorFlag = true;
-		//			hasNum = false;
-		//			firstNum = false;
-		//			if (num == "/")
-		//			{
-		//				calcuList += "/";
-		//				textBox1.Text += "÷";
-		//				return;
-		//			}
-		//			calcuList += num;
-		//			textBox1.Text += num;
-		//			return;
-		//		}
-		//		return;
-		//	}
-		//	else
-		//	{
-		//		if (operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/" || fenMuFlag))
-		//		{
-		//			return;
-		//		}
-		//		if (!operatorFlag && (num == "+" || num == "-" || num == "*" || num == "/"))
-		//		{
-		//			calcuList += calcuMem;
-		//			calcuMem = "";
-		//			operatorFlag = true;
-		//			if (num == "/")
-		//			{
-		//				calcuList += "/";
-		//				textBox1.Text += "÷";
-
-		//				return;
-		//			}
-		//			textBox1.Text += num;
-		//			calcuList += num;
-		//			return;
-		//		}
-		//		if (fenMuFlag)
-		//		{
-		//			if (!hasFenMu)
-		//			{
-		//				if ( num == "+" || num == "-" || num == "*" || num == "/")
-		//				{
-		//					return;
-		//				}
-		//				calcuMem += num;
-		//				textBox1.Text += num;
-		//				hasFenMu = true;
-		//				return;
-		//			}
-		//			if (num == "+" || num == "-" || num == "*" || num == "/")
-		//			{
-		//				FenMu.Add(calcuMem);
-		//				textBox1.Text += num;
-		//				return;
-		//			}
-
-
-		//		}
-		//		operatorFlag = false;
-		//		calcuList += num;
-		//		textBox1.Text += num;
-		//		return;
-
-
-
-		//		//↑显示并压栈符号
-		//	}
-
-
-		//}
 
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			
+			for (int i = 0; i <100; i++)
+			{
+				FenMu.Add("1");
+			}
 
+			for (int i = 0; i < 100; i++)
+			{
+				FenZi.Add("");
+			}
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			Num_push("1");
+			pushNum("1");
 			operatorFlag = false;
 
 
@@ -172,54 +121,54 @@ namespace test
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			Num_push("2");
+			pushNum("2");
 			operatorFlag = false;
 		}
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			Num_push("3");
+			pushNum("3");
 			operatorFlag = false;
 		}
 
 		private void button4_Click(object sender, EventArgs e)
 		{
-			Num_push("4");
+			pushNum("4");
 			operatorFlag = false;
 		}
 
 		private void button5_Click(object sender, EventArgs e)
 		{
-			Num_push("5");
+			pushNum("5");
 			operatorFlag = false;
 		}
 
 		private void button6_Click(object sender, EventArgs e)
 		{
-			Num_push("6");
+			pushNum("6");
 			operatorFlag = false;
 		}
 		private void button7_Click(object sender, EventArgs e)
 		{
-			Num_push("7");
+			pushNum("7");
 			operatorFlag = false;
 		}
 
 		private void button8_Click(object sender, EventArgs e)
 		{
-			Num_push("8");
+			pushNum("8");
 			operatorFlag = false;
 		}
 
 		private void button9_Click(object sender, EventArgs e)
 		{
-			Num_push("9");
+			pushNum("9");
 			operatorFlag = false;
 		}
 
 		private void button10_Click(object sender, EventArgs e)  //数字0
 		{
-			Num_push("0");
+			pushNum("0");
 			operatorFlag = false;
 
 		}
@@ -231,10 +180,30 @@ namespace test
 			{
 				return;
 			}
-			calcuList += calcuMem;
+			pushPrt("=");
+			int GongFenMu = 1;
+			for (int i = 0; i < numCounter; i++)
+			{
+			
+				GongFenMu *= Int32.Parse(FenMu[i]);
+			}
 
+			for (int i = 0; i < FenZi.Count; i++)
+			{
+				FenZi[i] =( (Int32.Parse(FenZi[i]))* (GongFenMu / Int32.Parse(FenMu[i])) ).ToString();  //通分
+			}
+			string temp="";
 
-			int a = Int32.Parse(Eval.JScriptEvaluate(calcuList, JSEngine).ToString());
+			for (int i = 0; i < FenZi.Count; i++)
+			{
+				temp += FenZi[i];
+				if (Ptr[i] == "=")
+				{
+					break;
+				}
+				temp += Ptr[i];
+			}
+				int a = Int32.Parse(Eval.JScriptEvaluate(temp, JSEngine).ToString());
 
 
 
@@ -244,15 +213,12 @@ namespace test
 
 			textBox1.Clear();
 			operatorFlag = false;
-			firstNum = true;
-			calcuList = "";
-			calcuMem = "";
 
 		}
 
 		private void button12_Click(object sender, EventArgs e) //加号
 		{
-			Num_push("+");
+			pushPrt("+");
 
 		}
 
@@ -260,7 +226,7 @@ namespace test
 		{
 
 
-			Num_push("-");
+			pushPrt("-");
 			
 
 		}
@@ -269,46 +235,35 @@ namespace test
 		{
 
 
-			Num_push("*");
+			pushPrt("*");
 		}
 
 		private void button15_Click(object sender, EventArgs e)  //除号
 		{
 
 
-			Num_push("/");
+			pushPrt("/");
 
 		}
 
 		private void button16_Click(object sender, EventArgs e)//退格
 		{
-			if (textBox1.Text != "")
-			{
-				if (!firstNum && !operatorFlag)
-				{
-					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-					 calcuMem = calcuMem.Substring(0, calcuMem.Length - 1);
-					return;
-				}
-				if (!firstNum && operatorFlag)
-				{
-					textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-					calcuList = calcuList.Substring(0, calcuList.Length - 1);
-					operatorFlag = false;
-					return;
-				}
-				if (fenMuFlag)
-				{
-					if (calcuMem == "")
-					{
-						fenMuFlag = false;
-						operatorFlag = false;
-						hasFenMu = false;
-						textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
-					}
 
+			if (fenMuFlag)
+			{
+				if (FenMu.Count()==0)
+				{
+					return;
 				}
+				textBox1.Text = textBox1.Text.Substring(0, textBox1.Text.Length - 1);
+				FenMu[numCounter] = FenMu[numCounter].Substring(0, FenMu[numCounter].Length - 1);
+				return;
 			}
+
+
+
+
+
 		}
 
 		private void button17_Click(object sender, EventArgs e)   //倒数
@@ -318,17 +273,8 @@ namespace test
 
 		private void button18_Click(object sender, EventArgs e)  //分数线
 		{
-			if (fenMuFlag)
-			{
-				return;   //多重分数太复杂
-			}
 			fenMuFlag = true;
-			operatorFlag = true;  //分母如果包含其他运算太复杂,略去
-			hasFenMu = false;
 			textBox1.Text += "/";
-
-			FenZi.Add(calcuList[calcuList.Length-1]+calcuMem);
-			calcuMem = "";
 
 
 
